@@ -1,0 +1,6 @@
+@model List<Numune>
+@{ ViewData["Title"] = "Numune Kayıtları"; }
+<div class="hero compact"><div><span class="kicker">KAYIT ARŞİVİ</span><h1>Tüm numuneler</h1></div><form class="search"><input name="q" value="@ViewBag.Q" placeholder="Kod veya ürün ara..."/><button>Bul</button></form></div>
+<section class="panel"><div class="table-wrap"><table><thead><tr><th>İç kod</th><th>Dış kod</th><th>Ürün</th><th>Menşei / Cins</th><th>Durum</th><th></th></tr></thead><tbody>
+@foreach (var n in Model) { <tr><td><b class="code">@n.IcTakipKodu</b></td><td>@(n.AnonimDisKod ?? "—")</td><td>@n.UrunAdi<small>@n.NumuneAlmaTarihi.ToString("dd.MM.yyyy HH:mm")</small></td><td>@n.Mensei.Ad<small>@n.Cins.Ad</small></td><td><span class="status s-@((int)n.Durum)">@n.Durum</span></td><td><a asp-action="Detay" asp-route-id="@n.Id">Detay →</a></td></tr> }
+</tbody></table></div></section>

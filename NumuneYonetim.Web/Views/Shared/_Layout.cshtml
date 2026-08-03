@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] · NumuneTakip</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <aside class="sidebar">
+        <a class="brand" asp-controller="Home" asp-action="Index"><b>N</b><span>NumuneTakip<small>Kalite Yönetim Sistemi</small></span></a>
+        <nav>
+            <a asp-controller="Home" asp-action="Index">⌂ <span>Genel Bakış</span></a>
+            <a asp-controller="Numuneler" asp-action="Yeni">＋ <span>Numune Al</span></a>
+            <a asp-controller="Laboratuvar" asp-action="Index">⌁ <span>Laboratuvar</span></a>
+            <a asp-controller="Uretim" asp-action="Index">▣ <span>Üretim & Baskı</span></a>
+            <a asp-controller="Numuneler" asp-action="Index">▤ <span>Tüm Kayıtlar</span></a>
+        </nav>
+        <div class="system"><i></i><span>Sistem aktif<small>Anlık veri bağlantısı</small></span></div>
+    </aside>
+    <main>
+        <header><div><small>KALİTE KONTROL</small><strong>@ViewData["Title"]</strong></div><div class="user"><b>KP</b><span>Kalite Personeli<small>Üretim Tesisi</small></span></div></header>
+        <section class="page">
+            @if (TempData["Basarili"] is string mesaj) { <div class="alert">✓ @mesaj</div> }
+            @RenderBody()
+        </section>
+    </main>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

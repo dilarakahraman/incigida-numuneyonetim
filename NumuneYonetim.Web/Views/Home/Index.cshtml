@@ -1,0 +1,15 @@
+@model DashboardVm
+@{ ViewData["Title"] = "Genel Bakış"; }
+<div class="hero"><div><span class="kicker">CANLI OPERASYON</span><h1>Numune akışını tek yerden yönetin</h1><p>Numune alma, analiz, onay ve etiket baskısı aynı kayıt üzerinden ilerler.</p></div><a class="btn" asp-controller="Numuneler" asp-action="Yeni">＋ Yeni Numune Al</a></div>
+<div class="stats">
+    <article><span>BUGÜN ALINAN</span><strong>@Model.BugunAlinan</strong><small>numune</small></article>
+    <article><span>ANALİZ BEKLİYOR</span><strong>@Model.AnalizBekleyen</strong><small>laboratuvarda</small></article>
+    <article><span>ONAYLANDI</span><strong>@Model.Onaylanan</strong><small>anonim kod hazır</small></article>
+    <article><span>BASKI KUYRUĞU</span><strong>@Model.BekleyenBaski</strong><small>etiket bekliyor</small></article>
+</div>
+<section class="panel"><div class="panel-head"><div><span class="kicker">SON HAREKETLER</span><h2>Güncel numuneler</h2></div><a asp-controller="Numuneler" asp-action="Index">Tümünü gör →</a></div>
+@if (Model.SonNumuneler.Count == 0) { <div class="empty"><b>Henüz numune alınmadı</b><span>İlk numuneyi kaydettiğinizde burada görünecek.</span></div> }
+else { <div class="table-wrap"><table><thead><tr><th>İç kod</th><th>Menşei / Cins</th><th>Alınma zamanı</th><th>Durum</th><th></th></tr></thead><tbody>
+@foreach (var n in Model.SonNumuneler) { <tr><td><b class="code">@n.IcTakipKodu</b></td><td>@n.Mensei.Ad<small>@n.Cins.Ad</small></td><td>@n.NumuneAlmaTarihi.ToString("dd.MM.yyyy HH:mm")</td><td><span class="status s-@((int)n.Durum)">@n.Durum</span></td><td><a asp-controller="Numuneler" asp-action="Detay" asp-route-id="@n.Id">Aç →</a></td></tr> }
+</tbody></table></div>}
+</section>

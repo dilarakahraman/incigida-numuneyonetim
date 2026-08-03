@@ -1,0 +1,12 @@
+@model AnalizGirVm
+@{ ViewData["Title"] = "Analiz Girişi"; var n = (Numune)ViewBag.Numune; }
+<div class="hero compact"><div><span class="kicker">LABORATUVAR ANALİZİ</span><h1>@n.IcTakipKodu</h1><p>@n.Mensei.Ad · @n.Cins.Ad · Numune: @n.NumuneAlmaTarihi.ToString("dd.MM.yyyy HH:mm")</p></div><div class="step"><b>02</b><span>Analiz ve karar<small>Onayda anonim kod oluşur</small></span></div></div>
+<form method="post" class="panel form-grid"><input asp-for="NumuneId" type="hidden" />
+    <div class="field"><label asp-for="NemDegeri">Nem değeri (%) *</label><input asp-for="NemDegeri" type="number" step="0.01" /></div>
+    <div class="field"><label asp-for="Safiyet">Safiyet (%)</label><input asp-for="Safiyet" type="number" step="0.01" /></div>
+    <div class="field"><label asp-for="YabanciMadde">Yabancı madde (%)</label><input asp-for="YabanciMadde" type="number" step="0.01" /></div>
+    <div class="field"><label asp-for="AnalizYapan">Analizi yapan *</label><input asp-for="AnalizYapan" /></div>
+    <div class="field wide"><label asp-for="Aciklama">Laboratuvar açıklaması</label><textarea asp-for="Aciklama" rows="4"></textarea></div>
+    <div class="decision wide"><label><input asp-for="OnaylandiMi" type="radio" value="true" /><span class="approve">✓ Onayla<small>Anonim kod ve son ürün etiketi oluşturulur</small></span></label><label><input asp-for="OnaylandiMi" type="radio" value="false" checked /><span class="reject">× Reddet<small>Dış kod oluşturulmaz</small></span></label></div>
+    <div class="form-actions"><a asp-action="Index">Vazgeç</a><button class="btn" type="submit">Analizi Tamamla →</button></div>
+</form>
