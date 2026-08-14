@@ -1,0 +1,50 @@
+@model List<EtiketBaski>
+@{ ViewData["Title"] = "Baskı Merkezi"; }
+<div class="hero compact">
+    <div><span class="kicker">CANLI ETİKET KUYRUĞU</span><h1>Baskı Merkezi</h1><p>Yazıcıya gönderilebilecek her etiket burada ayrı bir iş olarak görünür.</p></div>
+    <div class="step"><b id="liveDot">●</b><span>Canlı bağlantı<small>Durumlar otomatik yenilenir</small></span></div>
+</div>
+<section class="print-summary">
+    <div><b>@Model.Count(x => x.Durum == BaskiDurumu.Bekliyor)</b><span>Bekliyor</span></div>
+    <div><b>@Model.Count(x => x.Durum == BaskiDurumu.YaziciyaGonderildi)</b><span>Gönderildi</span></div>
+    <div><b>@Model.Count(x => x.Durum == BaskiDurumu.Basarili)</b><span>Başarılı</span></div>
+    <div><b>@Model.Count(x => x.Durum == BaskiDurumu.Hatali)</b><span>Hatalı</span></div>
+</section>
+<section class="panel">
+@if (Model.Count == 0)
+{
+    <div class="empty"><b>Baskı kuyruğu boş</b><span>Numune kaydedildiğinde palet ve numune etiketleri burada ayrı ayrı oluşacak.</span></div>
+}
+else
+{
+    <div class="print-list">
+    @foreach (var b in Model)
+    {
+        var etiketAdi = b.EtiketTipi switch { EtiketTipi.Palet => "Palet / Stok Etiketi", EtiketTipi.Numune => "Numune Etiketi", _ => "Müşteri Etiketi" };
+        var kod = b.EtiketTipi == EtiketTipi.SonUrun ? b.Numune.AnonimDisKod : b.Numune.IcTakipKodu;
+        <article class="print-job">
+            <div class="print-kind"><small>ETİKET TÜRÜ</small><strong>@etiketAdi @(b.PaletSiraNo is null ? "" : $"· Palet {b.PaletSiraNo}")</strong><span class="code">@kod</span></div>
+            <div><small>ÜRÜN</small><strong>@b.Numune.Cins.Ad</strong><span>@b.Numune.Mensei.Ad · @b.Numune.StokAlani @b.Numune.StokNo</span></div>
+            <div><small>BASKI BİLGİSİ</small><strong>@b.Durum</strong><span>@(b.YaziciAdi ?? "Yazıcı bekleniyor") · @b.DenemeSayisi deneme</span></div>
+            <div><small>ZAMAN</small><strong>@b.OlusturmaTarihi.ToString("dd.MM.yyyy HH:mm")</strong><span>@(b.BasimTarihi?.ToString("dd.MM.yyyy HH:mm") ?? "Henüz basılmadı")</span></div>
+            <div class="print-actions">
+                <a class="mini-btn" asp-controller="Numuneler" asp-action="Etiket" asp-route-id="@b.NumuneId" asp-route-tip="@b.EtiketTipi" asp-route-paletSiraNo="@b.PaletSiraNo">Önizle</a>
+                <form method="post" asp-action="TekrarYazdir" asp-route-id="@b.Id"><button class="btn" type="submit">Yazıcıya Gönder</button></form>
+            </div>
+        </article>
+    }
+    </div>
+}
+</section>
+<style>
+.print-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.print-summary div{padding:16px;border:1px solid var(--line);border-radius:10px;background:#fff}.print-summary b{display:block;font-size:25px}.print-summary span{color:var(--muted);font-size:12px}.print-list{display:grid;gap:10px}.print-job{display:grid;grid-template-columns:1.2fr 1.2fr 1.2fr 1fr auto;gap:18px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:10px;background:#fff}.print-job div{min-width:0}.print-job small{display:block;color:var(--muted);font-size:9px;letter-spacing:.08em}.print-job strong,.print-job span{display:block}.print-job span{color:var(--muted);font-size:11px;margin-top:3px}.print-kind .code{color:inherit;font-size:12px}.print-actions{display:flex!important;gap:8px;align-items:center}.print-actions form{margin:0}
+@@media(max-width:900px){.print-job{grid-template-columns:1fr 1fr}.print-actions{grid-column:1/-1;justify-content:flex-end}}
+@@media(max-width:600px){.print-summary{grid-template-columns:1fr 1fr}.print-job{grid-template-columns:1fr}.print-actions{grid-column:auto;justify-content:stretch}.print-actions>*{flex:1}.print-actions .btn,.print-actions .mini-btn{width:100%;text-align:center}}
+</style>
+@section Scripts {
+<script>
+const stream = new EventSource('/canli-akis');
+stream.onmessage = () => window.location.reload();
+stream.onerror = () => document.getElementById('liveDot').style.color = '#bd3f3f';
+</script>
+}

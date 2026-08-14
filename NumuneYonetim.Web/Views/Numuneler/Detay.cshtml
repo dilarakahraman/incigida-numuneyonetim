@@ -1,0 +1,53 @@
+@model Numune
+@{ ViewData["Title"] = "Numune Detayı"; }
+<div class="hero compact">
+    <div><span class="kicker">NUMUNE KAYDI</span><h1>@Model.IcTakipKodu</h1><p>@Model.UrunAdi · @Model.Mensei.Ad · @Model.Cins.Ad</p></div>
+    <span class="status s-@((int)Model.Durum)">@Model.Durum</span>
+</div>
+@if (!string.IsNullOrWhiteSpace(Model.AnonimDisKod))
+{
+    <section class="customer-code-banner">
+        <small>MÜŞTERİ KODU</small>
+        <strong>@Model.AnonimDisKod</strong>
+        <span>Laboratuvar onayı sonrasında oluşturulan, menşei bilgisini gizleyen dış takip kodu.</span>
+    </section>
+}
+<section class="panel form-grid detail-grid">
+    <div class="field"><label>İç takip kodu</label><strong class="code">@Model.IcTakipKodu</strong></div>
+    <div class="field"><label>Anonim dış kod</label><strong class="code">@(Model.AnonimDisKod ?? "Henüz oluşturulmadı")</strong></div>
+    <div class="field"><label>Müşteri</label><strong>@(Model.MusteriAdi ?? "Henüz girilmedi")</strong></div>
+    <div class="field"><label>Sevkiyat / palet no</label><strong>@(Model.SevkiyatPaletNo ?? "Henüz girilmedi")</strong></div>
+    <div class="field"><label>Menşei</label><strong>@Model.Mensei.Ad</strong></div>
+    <div class="field"><label>Cins</label><strong>@Model.Cins.Ad</strong></div>
+    <div class="field"><label>Palet</label><strong>@(Model.PaletNo ?? "—")</strong></div>
+    <div class="field"><label>Paket / Ambalaj</label><strong>@Model.PaketSayisi adet · @Model.AmbalajTuru.Ad</strong></div>
+    <div class="field"><label>Üretim tarihi</label><strong>@Model.UretimTarihi.ToString("dd.MM.yyyy")</strong></div>
+    <div class="field"><label>Numune zamanı</label><strong>@Model.NumuneAlmaTarihi.ToString("dd.MM.yyyy HH:mm")</strong></div>
+    @if (Model.Analiz is not null)
+    {
+        <div class="field"><label>Nem</label><strong>%@Model.Analiz.NemDegeri</strong></div>
+        <div class="field"><label>Analiz sonucu</label><strong>@(Model.Analiz.OnaylandiMi ? "Onaylandı" : "Reddedildi")</strong></div>
+    }
+    <div class="form-actions">
+        <a asp-action="Index">← Tüm kayıtlara dön</a>
+        <div>
+            <a class="mini-btn" asp-action="Duzenle" asp-route-id="@Model.Id">Kaydı düzenle</a>
+            <a class="mini-btn" asp-action="Etiket" asp-route-id="@Model.Id" asp-route-tip="@EtiketTipi.Numune">Numune etiketi</a>
+            <a class="mini-btn" asp-action="Etiket" asp-route-id="@Model.Id" asp-route-tip="@EtiketTipi.Palet">Palet / stok etiketi</a>
+            @if (Model.AnonimDisKod is not null)
+            {
+                @if (Model.MusteriAdi is null)
+                { <a class="btn" asp-action="SonUrunHazirla" asp-route-id="@Model.Id">Müşteri bilgisi gir</a> }
+                else
+                { <a class="btn" asp-action="Etiket" asp-route-id="@Model.Id" asp-route-tip="@EtiketTipi.SonUrun">Müşteri etiketi</a> }
+            }
+        </div>
+    </div>
+</section>
+<style>
+.detail-grid .field{padding:14px;border:1px solid var(--line);border-radius:9px;background:#fafcfb}.detail-grid .field label{color:var(--muted);font-size:9px;letter-spacing:.08em;text-transform:uppercase}.detail-grid .field strong{font-size:13px}.detail-grid .form-actions>div{display:flex;gap:8px;align-items:center}
+</style>
+<style>
+.customer-code-banner{display:flex;align-items:center;gap:18px;margin-bottom:16px;padding:18px 22px;border-radius:12px;background:#172f28;color:#fff}.customer-code-banner small{font-size:10px;letter-spacing:.12em;opacity:.7}.customer-code-banner strong{font-size:25px;letter-spacing:.08em}.customer-code-banner span{margin-left:auto;max-width:420px;font-size:11px;opacity:.75}
+@@media(max-width:600px){.customer-code-banner{align-items:flex-start;flex-direction:column;gap:6px}.customer-code-banner span{margin-left:0}}
+</style>

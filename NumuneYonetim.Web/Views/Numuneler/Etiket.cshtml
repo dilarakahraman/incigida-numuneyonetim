@@ -1,0 +1,65 @@
+@model Numune
+@{
+    var tip = (EtiketTipi)ViewBag.EtiketTipi;
+    var sonUrun = tip == EtiketTipi.SonUrun;
+    ViewData["Title"] = "Etiket Önizleme";
+    var kod = sonUrun ? Model.AnonimDisKod : Model.IcTakipKodu;
+}
+<div class="hero compact no-print">
+    <div>
+        <span class="kicker">ETİKET HAZIR</span>
+        <h1>@tip etiketi</h1>
+        <p>Etiketi kontrol edin ve bağlı yazıcıya gönderin.</p>
+    </div>
+    <div class="step"><b>✓</b><span>@kod<small>Baskıya hazır</small></span></div>
+</div>
+
+<section class="label-stage">
+    <article class="sample-label">
+        <header class="label-head">
+            <div><small>@(sonUrun ? "ANONİM ÜRÜN KODU" : "İÇ TAKİP KODU")</small><strong>@kod</strong></div>
+            <b>QC</b>
+        </header>
+        <div class="barcode" aria-label="@kod barkodu"></div>
+        <h2>@Model.UrunAdi</h2>
+        @if (!sonUrun)
+        {
+            <dl>
+                <div><dt>Menşei</dt><dd>@Model.Mensei.Ad</dd></div>
+                <div><dt>Cins</dt><dd>@Model.Cins.Ad</dd></div>
+                <div><dt>Palet</dt><dd>@(Model.PaletNo ?? "—")</dd></div>
+                <div><dt>Paket</dt><dd>@Model.PaketSayisi adet</dd></div>
+                <div><dt>Üretim tarihi</dt><dd>@Model.UretimTarihi.ToString("dd.MM.yyyy")</dd></div>
+                <div><dt>Numune zamanı</dt><dd>@Model.NumuneAlmaTarihi.ToString("dd.MM.yyyy HH:mm")</dd></div>
+                
+                <div><dt>Etiket türü</dt><dd>@tip</dd></div>
+            </dl>
+            <footer>@Model.Kaydeden · @Model.KayitTarihi.ToString("dd.MM.yyyy HH:mm")</footer>
+        }
+        else
+        {
+            <p class="anonymous-note">Bu kod menşei, cins, tedarikçi veya müşteri bilgisi içermez.</p>
+        }
+    </article>
+</section>
+<div class="label-actions no-print">
+    <a class="mini-btn" asp-action="Detay" asp-route-id="@Model.Id">Numune detayına dön</a>
+    @if (!sonUrun)
+    {
+        <a class="mini-btn" asp-action="Etiket" asp-route-id="@Model.Id" asp-route-tip="@EtiketTipi.Palet">Palet etiketi</a>
+    }
+    <button class="btn" type="button" onclick="window.print()">Etiketi Yazdır</button>
+</div>
+<style>
+.label-stage{display:grid;place-items:center;padding:30px;border:1px solid var(--line);border-radius:14px;background:#e8eeea}
+.sample-label{width:min(100%,520px);padding:25px;border:3px solid #111;background:#fff;color:#111;font-family:Arial,sans-serif;box-shadow:0 14px 32px rgba(0,0,0,.12)}
+.label-head{display:flex;align-items:center;justify-content:space-between}
+.label-head small,.label-head strong{display:block}.label-head small{font-size:9px;font-weight:900;letter-spacing:.12em}.label-head strong{margin-top:3px;font:900 30px Consolas,monospace}
+.label-head>b{display:grid;width:50px;height:50px;place-items:center;border:3px solid #111;font-size:18px}
+.barcode{height:58px;margin:17px 0;background:repeating-linear-gradient(90deg,#111 0,#111 2px,transparent 2px,transparent 5px,#111 5px,#111 9px,transparent 9px,transparent 12px)}
+.sample-label h2{margin:0;padding:12px 0;border-block:2px solid #111;font-size:19px;text-transform:uppercase}
+.sample-label dl{display:grid;grid-template-columns:repeat(2,1fr);gap:11px 18px;margin:17px 0}.sample-label dl div{border-bottom:1px solid #bbb}.sample-label dt{font-size:8px;font-weight:900;text-transform:uppercase}.sample-label dd{margin:3px 0 7px;font-size:12px;font-weight:700}
+.sample-label footer{padding-top:10px;border-top:2px solid #111;font-size:9px}.anonymous-note{margin:18px 0 0;font-size:11px}.label-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+@@media(max-width:560px){.label-stage{padding:12px}.sample-label{padding:17px}.sample-label dl{grid-template-columns:1fr}.label-actions{align-items:stretch;flex-direction:column}.label-actions>*{justify-content:center}}
+@@media print{.no-print,.sidebar,body>main>header{display:none!important}body>main{margin:0}.page{width:100%;padding:0}.label-stage{padding:0;border:0;background:#fff}.sample-label{width:100mm;box-shadow:none;page-break-inside:avoid}@@page{size:100mm 150mm;margin:4mm}}
+</style>

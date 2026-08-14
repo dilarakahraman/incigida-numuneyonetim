@@ -1,0 +1,21 @@
+@model NumuneDuzenleVm
+@{ ViewData["Title"] = "Numune Kaydını Düzenle"; var numune = (Numune)ViewBag.Numune; }
+<div class="hero compact"><div><span class="kicker">KAYIT DÜZENLEME</span><h1>@numune.IcTakipKodu</h1><p>Kimlik ve otomatik sayaç alanları korunur; kayıt ve etiket bilgileri güncellenir.</p></div></div>
+<section class="panel form-grid detail-grid">
+    <div class="field"><label>Menşei / Cins</label><strong>@numune.Mensei.Ad · @numune.Cins.Ad</strong></div>
+    <div class="field"><label>Stok bilgisi</label><strong>@numune.StokAlani · @numune.StokNo</strong></div>
+</section>
+<form method="post" class="panel form-grid">
+    <input asp-for="Id" type="hidden" />
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="field wide"><label asp-for="UrunAdi">Ürün adı *</label><input asp-for="UrunAdi" /><span asp-validation-for="UrunAdi"></span></div>
+    <div class="field"><label asp-for="PaketSayisi">Paket sayısı *</label><input asp-for="PaketSayisi" type="number" min="1" /></div>
+    <div class="field"><label asp-for="PaketAgirligiKg">Paket ağırlığı (kg) *</label><input asp-for="PaketAgirligiKg" type="number" min="0.01" step="0.01" /></div>
+    <div class="field"><label asp-for="PaletNo">Palet numarası</label><input asp-for="PaletNo" /></div>
+    <div class="field"><label asp-for="UretimTarihi">Üretim tarihi *</label><input asp-for="UretimTarihi" type="date" /></div>
+    <div class="field"><label asp-for="NumuneAlmaTarihi">Numune alma zamanı *</label><input asp-for="NumuneAlmaTarihi" type="datetime-local" /></div>
+    <div class="field"><label asp-for="AmbalajTuruId">Ambalaj türü *</label><select asp-for="AmbalajTuruId" asp-items="ViewBag.Ambalajlar"></select></div>
+    <div class="field"><label asp-for="Kaydeden">Numuneyi alan *</label><input asp-for="Kaydeden" /></div>
+    <div class="field wide"><label asp-for="Aciklama">Açıklama</label><textarea asp-for="Aciklama" rows="3"></textarea></div>
+    <div class="form-actions"><a asp-action="Detay" asp-route-id="@Model.Id">Vazgeç</a><button class="btn" type="submit">Değişiklikleri Kaydet</button></div>
+</form>

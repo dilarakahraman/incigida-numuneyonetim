@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace NumuneYonetim.Web.Models;
 
 public enum NumuneDurumu { AnalizBekliyor = 1, Analizde = 2, Onaylandi = 3, Reddedildi = 4 }
+public enum NumuneTuru { Susam = 1, Tahin = 2 }
 
 public class Numune
 {
@@ -16,12 +17,23 @@ public class Numune
     public int CinsId { get; set; }
     public Cins Cins { get; set; } = null!;
     [Required, MaxLength(120)] public string UrunAdi { get; set; } = "";
+    public NumuneTuru NumuneTuru { get; set; } = NumuneTuru.Susam;
+    public int? SusamPaketiId { get; set; }
+    public SusamPaketi? SusamPaketi { get; set; }
+    public int? TahinPaketiId { get; set; }
+    public TahinPaketi? TahinPaketi { get; set; }
     public int PaketSayisi { get; set; }
     [Column(TypeName = "date")] public DateTime UretimTarihi { get; set; }
     public DateTime NumuneAlmaTarihi { get; set; }
     public int AmbalajTuruId { get; set; }
     public AmbalajTuru AmbalajTuru { get; set; } = null!;
     [MaxLength(40)] public string? PaletNo { get; set; }
+    [MaxLength(30)] public string? StokAlani { get; set; }
+    [MaxLength(30)] public string? StokNo { get; set; }
+    [Column(TypeName = "decimal(8,2)")] public decimal? PaketAgirligiKg { get; set; }
+    [MaxLength(120)] public string? MusteriAdi { get; set; }
+    [MaxLength(30)] public string? SevkiyatPaletNo { get; set; }
+    public int? MusteriPaletSayisi { get; set; }
     [MaxLength(500)] public string? Aciklama { get; set; }
     public NumuneDurumu Durum { get; set; } = NumuneDurumu.AnalizBekliyor;
     [MaxLength(100)] public string Kaydeden { get; set; } = "Kalite Personeli";
@@ -36,7 +48,6 @@ public class NumuneAnaliz
     public int NumuneId { get; set; }
     public Numune Numune { get; set; } = null!;
     [Column(TypeName = "decimal(5,2)")] public decimal NemDegeri { get; set; }
-    [Column(TypeName = "decimal(6,2)")] public decimal? Safiyet { get; set; }
     [Column(TypeName = "decimal(6,2)")] public decimal? YabanciMadde { get; set; }
     [MaxLength(100)] public string AnalizYapan { get; set; } = "Laboratuvar Kalite Personeli";
     public DateTime AnalizTarihi { get; set; } = DateTime.Now;

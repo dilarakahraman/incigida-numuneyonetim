@@ -8,8 +8,26 @@ namespace NumuneYonetim.Web.Controllers;
 
 public class UretimController(AppDbContext db, CanliBildirimService bildirim) : Controller
 {
-    public async Task<IActionResult> Index() => View(await db.EtiketBaskilari.Include(x => x.Numune).ThenInclude(x => x.Cins)
-        .OrderByDescending(x => x.OlusturmaTarihi).Take(50).ToListAsync());
+    public async Task<IActionResult> Index() => View(await db.EtiketBaskilari
+        .Include(x => x.Numune).ThenInclude(x => x.Cins)
+        .Include(x => x.Numune).ThenInclude(x => x.Mensei)
+        .OrderByDescending(x => x.OlusturmaTarihi).Take(200).ToListAsync());
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> TekrarYazdir(int id)
+    {
+        var eskiBaski = await db.EtiketBaskilari.FindAsync(id);
+        if (eskiBaski is null) return NotFound();
+        db.EtiketBaskilari.Add(new EtiketBaski
+        {
+            NumuneId = eskiBaski.NumuneId, EtiketTipi = eskiBaski.EtiketTipi,
+            KopyaSayisi = eskiBaski.KopyaSayisi, PaletSiraNo = eskiBaski.PaletSiraNo, Durum = BaskiDurumu.Bekliyor
+        });
+        await db.SaveChangesAsync();
+        bildirim.Yayinla("baski-yeniden-kuyrukta");
+        TempData["Basarili"] = "Etiket yeniden baskı kuyruğuna gönderildi.";
+        return RedirectToAction(nameof(Index));
+    }
 
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Basildi(int id)

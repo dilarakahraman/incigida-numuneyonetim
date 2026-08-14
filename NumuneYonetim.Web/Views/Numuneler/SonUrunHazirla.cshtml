@@ -1,0 +1,22 @@
+@model SonUrunHazirlaVm
+@{ ViewData["Title"] = "Müşteriye Bağla"; var numune = (Numune)ViewBag.Numune; }
+<div class="hero compact">
+  <div><span class="kicker">3. AŞAMA · MÜŞTERİYE BAĞLAMA</span><h1>Onaylı numuneyi müşteriye bağla</h1><p>@numune.IcTakipKodu · @numune.Cins.Ad · Laboratuvar onaylı</p></div>
+  <div class="step"><b>03</b><span>Müşteri bilgisi<small>Son ürün etiketinden önce</small></span></div>
+</div>
+<section class="customer-code-box">
+  <small>LABORATUVAR ONAYIYLA OLUŞAN MÜŞTERİ KODU</small>
+  <strong>@numune.AnonimDisKod</strong>
+  <span>Bu kod menşei ve iç takip bilgilerini müşteriye açıklamaz.</span>
+</section>
+<form method="post" class="panel form-grid">
+  <input asp-for="NumuneId" type="hidden" />
+  <div asp-validation-summary="ModelOnly"></div>
+  <div class="field wide"><label asp-for="MusteriAdi">Bağlanacak müşteri *</label><input asp-for="MusteriAdi" placeholder="Örn. KARAYTAŞ" autocomplete="organization" /><span asp-validation-for="MusteriAdi"></span></div>
+  <div class="field wide"><label asp-for="PaletSayisi">Müşteriye gidecek palet sayısı *</label><input asp-for="PaletSayisi" type="number" min="1" max="1000" /><span asp-validation-for="PaletSayisi"></span><small>Bu sayı kadar etiket oluşur; paletler 1'den başlayarak numaralandırılır.</small></div>
+  <div class="form-actions"><a asp-action="Detay" asp-route-id="@Model.NumuneId">Daha sonra bağla</a><button class="btn" type="submit">Müşteriye Bağla ve Etiketi Hazırla →</button></div>
+</form>
+<style>
+.customer-code-box{display:flex;align-items:center;gap:20px;margin-bottom:16px;padding:20px 24px;border-radius:12px;background:#172f28;color:#fff}.customer-code-box small{font-size:9px;letter-spacing:.1em;opacity:.7}.customer-code-box strong{font-size:28px;letter-spacing:.1em}.customer-code-box span{margin-left:auto;font-size:11px;opacity:.75}
+@@media(max-width:650px){.customer-code-box{align-items:flex-start;flex-direction:column;gap:7px}.customer-code-box span{margin-left:0}}
+</style>

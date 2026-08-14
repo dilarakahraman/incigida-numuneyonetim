@@ -13,6 +13,7 @@ public class EtiketBaski
     public EtiketTipi EtiketTipi { get; set; }
     public BaskiDurumu Durum { get; set; } = BaskiDurumu.Bekliyor;
     public int KopyaSayisi { get; set; } = 1;
+    public int? PaletSiraNo { get; set; }
     [MaxLength(100)] public string? YaziciAdi { get; set; }
     public DateTime OlusturmaTarihi { get; set; } = DateTime.Now;
     public DateTime? BasimTarihi { get; set; }

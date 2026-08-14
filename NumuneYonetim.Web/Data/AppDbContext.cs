@@ -11,6 +11,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Mensei> Menseiler => Set<Mensei>();
     public DbSet<AmbalajTuru> AmbalajTurleri => Set<AmbalajTuru>();
     public DbSet<EtiketBaski> EtiketBaskilari => Set<EtiketBaski>();
+    public DbSet<SusamPaketi> SusamPaketleri => Set<SusamPaketi>();
+    public DbSet<TahinPaketi> TahinPaketleri => Set<TahinPaketi>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

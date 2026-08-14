@@ -24,3 +24,17 @@ public class AmbalajTuru
     [Required, MaxLength(60)] public string Ad { get; set; } = "";
     public bool AktifMi { get; set; } = true;
 }
+
+public class SusamPaketi
+{
+    public int Id { get; set; }
+    [Required, MaxLength(100)] public string Ad { get; set; } = "";
+    public bool AktifMi { get; set; } = true;
+}
+
+public class TahinPaketi
+{
+    public int Id { get; set; }
+    [Required, MaxLength(120)] public string Ad { get; set; } = "";
+    public bool AktifMi { get; set; } = true;
+}

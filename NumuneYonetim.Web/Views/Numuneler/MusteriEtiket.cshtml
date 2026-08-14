@@ -1,0 +1,17 @@
+@model Numune
+@{ ViewData["Title"] = "Müşteri Etiketi"; var paletSiraNo = (int)(ViewBag.PaletSiraNo ?? 1); }
+<div class="hero compact no-print"><div><span class="kicker">MÜŞTERİ ETİKETİ</span><h1>Palet @paletSiraNo baskı önizleme</h1><p>Menşei ve iç takip kodu bu etikette gösterilmez.</p></div></div>
+<section class="photo-label-stage">
+  <article class="customer-label">
+    <strong>@Model.MusteriAdi</strong>
+    <b>@Model.Cins.Ad</b>
+    <em>@Model.AnonimDisKod</em>
+    <span>@paletSiraNo</span>
+  </article>
+</section>
+<div class="label-actions no-print"><a class="mini-btn" asp-action="Detay" asp-route-id="@Model.Id">Detaya dön</a><button class="btn" onclick="window.print()">Etiketi Yazdır</button></div>
+<style>
+.photo-label-stage{display:grid;place-items:center;padding:32px;border-radius:14px;background:#e7ece9}.customer-label{width:100mm;height:100mm;display:flex;flex-direction:column;padding:10mm;border:1px solid #bbb;background:#fff;color:#111;font-family:Arial,sans-serif;text-transform:uppercase}.customer-label strong{font-size:14mm;line-height:1;font-weight:900;letter-spacing:-.8mm}.customer-label b{margin-top:9mm;font-size:10mm;line-height:1;font-weight:900}.customer-label em{margin-top:6mm;font-size:6mm;line-height:1;font-weight:800;font-style:normal;letter-spacing:1mm}.customer-label span{margin-top:auto;font-size:23mm;line-height:.85;font-weight:900}.label-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+@@media(max-width:600px){.photo-label-stage{padding:12px}.customer-label{width:min(100%,100mm);height:auto;aspect-ratio:1}.customer-label strong{font-size:clamp(30px,12vw,53px)}.customer-label b{font-size:clamp(24px,9vw,40px)}.customer-label span{font-size:clamp(60px,22vw,88px)}}
+@@media print{.no-print,.sidebar,body>main>header{display:none!important}body>main{margin:0}.page{width:100%;padding:0}.photo-label-stage{padding:0;background:#fff}.customer-label{border:0}@@page{size:100mm 100mm;margin:0}}
+</style>

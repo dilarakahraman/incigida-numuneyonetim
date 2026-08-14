@@ -1,0 +1,27 @@
+@model Numune
+@using System.Globalization
+@{
+    ViewData["Title"] = "Numune Etiketi";
+    var tr = CultureInfo.GetCultureInfo("tr-TR");
+    var agirlik = Model.PaketAgirligiKg.HasValue ? $"{Model.PaketAgirligiKg.Value:0.##} KG" : "— KG";
+    var nem = Model.Analiz is null ? "ANALİZ BEKLİYOR" : Model.Analiz.NemDegeri.ToString("0.00", tr);
+}
+<div class="label-toolbar no-print"><a class="mini-btn" asp-action="Detay" asp-route-id="@Model.Id">Detaya dön</a><button class="btn" onclick="window.print()">Etiketi Yazdır</button></div>
+<main class="label-stage">
+  <article class="sample-label">
+    <strong>@Model.NumuneAlmaTarihi.ToString("dd.MM.yyyy")</strong>
+    <b>@Model.Mensei.Ad</b>
+    <b>@Model.Cins.Ad</b>
+    <b>@agirlik</b>
+    <b>STOK @(Model.StokNo ?? "—")</b>
+    <b>NEM: @nem</b>
+  </article>
+</main>
+<style>
+.label-toolbar{display:flex;justify-content:flex-end;gap:10px;margin-bottom:18px}
+.label-stage{display:grid;place-items:center;padding:28px;background:#e9eceb;border-radius:14px}
+.sample-label{box-sizing:border-box;width:75mm;height:55mm;padding:5mm 7mm;background:#fff;color:#000;border:1px solid #aaa;font-family:Arial,sans-serif;text-transform:uppercase;display:flex;flex-direction:column;justify-content:center}
+.sample-label strong{font-size:5.7mm;line-height:1.15;font-weight:900;margin-bottom:1.5mm}.sample-label b{font-size:5.2mm;line-height:1.2;font-weight:900}
+@@media(max-width:600px){.label-stage{padding:10px}.sample-label{width:100%;height:auto;aspect-ratio:1.36}.sample-label strong{font-size:clamp(20px,7vw,29px)}.sample-label b{font-size:clamp(18px,6.5vw,26px)}}
+@@media print{.no-print,.sidebar,body>main>header{display:none!important}body>main{margin:0}.page{width:100%;padding:0}.label-stage{padding:0;background:#fff}.sample-label{border:0}@@page{size:75mm 55mm;margin:0}}
+</style>
