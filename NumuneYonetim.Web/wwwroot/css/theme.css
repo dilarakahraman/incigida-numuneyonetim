@@ -1,17 +1,17 @@
 :root {
-  --ink: #17231e;
-  --muted: #68766f;
-  --line: #dce5e0;
-  --paper: #ffffff;
-  --wash: #f3f6f4;
-  --green: #0b7654;
-  --green-dark: #07583f;
-  --green-soft: #e8f2ed;
-  --lime: #dff369;
-  --nav: #10261f;
-  --danger: #bd3f3f;
-  --warning: #a56808;
-  --shadow: 0 12px 34px rgba(25, 55, 43, .07);
+  --ink: #24313a;
+  --muted: #6d777d;
+  --line: #e3ded3;
+  --paper: #fffefa;
+  --wash: #f6f2e9;
+  --green: #176b73;
+  --green-dark: #10535a;
+  --green-soft: #e4f0f0;
+  --lime: #f0c45a;
+  --nav: #182a38;
+  --danger: #b84a46;
+  --warning: #a66a13;
+  --shadow: 0 12px 34px rgba(49, 42, 29, .08);
 }
 
 * { box-sizing: border-box; }
@@ -81,7 +81,7 @@ button, .btn { cursor: pointer; }
 .sidebar nav a span { font-size: 13px; }
 .sidebar nav a:hover {
   transform: translateX(2px);
-  background: #1c3e32;
+  background: #243f52;
   color: #fff;
 }
 .system {
@@ -90,7 +90,7 @@ button, .btn { cursor: pointer; }
   gap: 11px;
   margin-top: auto;
   padding: 16px 12px 0;
-  border-top: 1px solid #28423a;
+  border-top: 1px solid #314858;
   font-size: 12px;
   font-weight: 700;
 }
@@ -98,8 +98,8 @@ button, .btn { cursor: pointer; }
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #68e3a3;
-  box-shadow: 0 0 0 4px #204638;
+  background: #6bd7c8;
+  box-shadow: 0 0 0 4px #294b58;
 }
 
 body > main { min-height: 100vh; margin-left: 252px; }
@@ -141,10 +141,10 @@ body > main > header > div > strong { display: block; margin-top: 3px; font-size
 .alert {
   margin-bottom: 22px;
   padding: 14px 17px;
-  border: 1px solid #b7dccb;
+  border: 1px solid #b8d8d7;
   border-radius: 9px;
-  background: #e9f6ef;
-  color: #075c40;
+  background: #e8f5f3;
+  color: #105c63;
   font-size: 12px;
   font-weight: 800;
 }
@@ -182,9 +182,9 @@ body > main > header > div > strong { display: block; margin-top: 3px; font-size
   align-items: center;
   gap: 13px;
   padding: 14px 17px;
-  border: 1px solid #bad2c8;
+  border: 1px solid #e2c57d;
   border-radius: 10px;
-  background: #edf5f1;
+  background: #fff8e5;
 }
 .step > b { color: var(--green); font-size: 26px; }
 .step > span { font-size: 12px; font-weight: 800; }
@@ -200,6 +200,10 @@ body > main > header > div > strong { display: block; margin-top: 3px; font-size
   background: var(--paper);
   box-shadow: var(--shadow);
 }
+.stats article:nth-child(1) { border-top: 3px solid #176b73; }
+.stats article:nth-child(2) { border-top: 3px solid #e0ad35; }
+.stats article:nth-child(3) { border-top: 3px solid #5579a6; }
+.stats article:nth-child(4) { border-top: 3px solid #b85b56; }
 .stats article::after {
   content: "";
   position: absolute;
@@ -213,6 +217,9 @@ body > main > header > div > strong { display: block; margin-top: 3px; font-size
 .stats span { display: block; color: var(--muted); font-size: 9px; font-weight: 900; letter-spacing: .11em; }
 .stats strong { display: inline-block; margin-top: 13px; font-size: 34px; line-height: 1; letter-spacing: -.04em; }
 .stats small { margin-left: 5px; color: var(--muted); font-size: 10px; }
+.stats article:nth-child(2)::after { background: #fff2cf; }
+.stats article:nth-child(3)::after { background: #e8eef7; }
+.stats article:nth-child(4)::after { background: #f8e9e7; }
 
 .panel {
   border: 1px solid var(--line);
@@ -226,9 +233,9 @@ body > main > header > div > strong { display: block; margin-top: 3px; font-size
 .table-wrap { width: 100%; overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 12px; }
 th, td { padding: 14px 18px; border-bottom: 1px solid #e6ece8; text-align: left; vertical-align: middle; }
-th { background: #fafcfb; color: var(--muted); font-size: 9px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+th { background: #f8f4eb; color: var(--muted); font-size: 9px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
 tbody tr { transition: background .15s ease; }
-tbody tr:hover { background: #f7faf8; }
+tbody tr:hover { background: #faf6ee; }
 tbody tr:last-child td { border-bottom: 0; }
 td > a { font-size: 11px; font-weight: 900; white-space: nowrap; }
 td small { color: var(--muted); }
@@ -260,10 +267,10 @@ td small { color: var(--muted); }
   width: 100%;
   min-height: 44px;
   padding: 10px 13px;
-  border: 1px solid #cad5d0;
+  border: 1px solid #d5d0c6;
   border-radius: 8px;
   outline: none;
-  background: #fbfcfb;
+  background: #fdfbf6;
   color: var(--ink);
   font-size: 12px;
   transition: .15s ease;

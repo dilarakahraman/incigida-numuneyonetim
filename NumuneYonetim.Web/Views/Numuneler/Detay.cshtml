@@ -22,7 +22,7 @@
     <div class="field"><label>Palet</label><strong>@(Model.PaletNo ?? "—")</strong></div>
     <div class="field"><label>Paket / Ambalaj</label><strong>@Model.PaketSayisi adet · @Model.AmbalajTuru.Ad</strong></div>
     <div class="field"><label>Üretim tarihi</label><strong>@Model.UretimTarihi.ToString("dd.MM.yyyy")</strong></div>
-    <div class="field"><label>Numune zamanı</label><strong>@Model.NumuneAlmaTarihi.ToString("dd.MM.yyyy HH:mm")</strong></div>
+    <div class="field"><label>Numune alım tarihi</label><strong>@Model.NumuneAlmaTarihi.ToString("dd.MM.yyyy")</strong></div>
     @if (Model.Analiz is not null)
     {
         <div class="field"><label>Nem</label><strong>%@Model.Analiz.NemDegeri</strong></div>

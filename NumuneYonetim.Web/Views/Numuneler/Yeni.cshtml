@@ -4,18 +4,18 @@
 <form method="post" class="panel form-grid">
     <div asp-validation-summary="ModelOnly"></div>
     <div class="field wide"><label asp-for="NumuneTuru">Numune türü *</label><select asp-for="NumuneTuru" id="numuneTuru"><option value="1">Susam</option><option value="2">Tahin</option></select></div>
-    <div class="field wide" id="susamPaketiAlani"><label asp-for="SusamPaketiId">Susam paketlemesi *</label><select asp-for="SusamPaketiId" asp-items="ViewBag.SusamPaketleri"><option value="">Paketleme seçin</option></select><span asp-validation-for="SusamPaketiId"></span></div>
-    <div class="field wide" id="tahinPaketiAlani"><label asp-for="TahinPaketiId">Tahin paketlemesi *</label><select asp-for="TahinPaketiId" asp-items="ViewBag.TahinPaketleri"><option value="">Paketleme seçin</option></select><span asp-validation-for="TahinPaketiId"></span></div>
+    <div class="field wide" id="susamPaketiAlani"><label asp-for="SusamPaketiId">Susam paketlemesi *</label><select asp-for="SusamPaketiId" asp-items="ViewBag.SusamPaketleri" id="susamPaketi"><option value="">Paketleme seçin</option></select><span asp-validation-for="SusamPaketiId"></span></div>
+    <div class="field wide" id="tahinPaketiAlani"><label asp-for="TahinPaketiId">Tahin paketlemesi *</label><select asp-for="TahinPaketiId" asp-items="ViewBag.TahinPaketleri" id="tahinPaketi"><option value="">Paketleme seçin</option></select><span asp-validation-for="TahinPaketiId"></span></div>
     <div class="field"><label asp-for="MenseiId">Menşei *</label><select asp-for="MenseiId" asp-items="ViewBag.Menseiler"><option value="">Menşei seçin</option></select><span asp-validation-for="MenseiId"></span></div>
     <div class="field"><label asp-for="CinsId">Cins *</label><select asp-for="CinsId" asp-items="ViewBag.Cinsler"><option value="">Cins seçin</option></select><span asp-validation-for="CinsId"></span></div>
     <div class="field"><label>Ürün adı</label><input id="urunAdiGorunum" readonly placeholder="Cins seçildiğinde otomatik oluşur" /><small>Seçilen cins ürün adı olarak kaydedilir.</small></div>
     <div class="field"><label asp-for="PaketSayisi">Paket sayısı *</label><input asp-for="PaketSayisi" type="number" min="1" /></div>
     <div class="field"><label asp-for="PaketAgirligiKg">Paket ağırlığı (kg) *</label><input asp-for="PaketAgirligiKg" type="number" min="0.01" step="0.01" /></div>
     <div class="field"><label asp-for="StokAlani">Stok alanı *</label><select asp-for="StokAlani"><option value="STOK A">STOK A</option><option value="STOK B">STOK B</option></select><span asp-validation-for="StokAlani"></span></div>
-    <div class="field"><label asp-for="StokNo">Otomatik stok numarası</label><input asp-for="StokNo" readonly /><small>Seçilen stok alanındaki son numaradan sonra otomatik verilir.</small></div>
+    <div class="field"><label asp-for="StokNo">Otomatik stok numarası</label><input asp-for="StokNo" readonly placeholder="Önce paketleme seçin" /><small>Her paketleme, STOK A ve STOK B için ayrı ayrı 1'den numaralandırılır.</small></div>
     <div class="field"><label asp-for="PaletNo">Palet numarası</label><input asp-for="PaletNo" placeholder="Örn. PLT-1042" /></div>
     <div class="field"><label asp-for="UretimTarihi">Üretim tarihi *</label><input asp-for="UretimTarihi" type="date" /></div>
-    <div class="field"><label asp-for="NumuneAlmaTarihi">Numune alma zamanı *</label><input asp-for="NumuneAlmaTarihi" type="datetime-local" /></div>
+    <div class="field"><label asp-for="NumuneAlmaTarihi">Numune alım tarihi *</label><input asp-for="NumuneAlmaTarihi" type="date" /></div>
     <div class="field"><label asp-for="Kaydeden">Numuneyi alan *</label><input asp-for="Kaydeden" /></div>
     <div class="field wide"><label asp-for="Aciklama">Açıklama</label><textarea asp-for="Aciklama" rows="3" placeholder="Varsa ek bilgi..."></textarea></div>
     <div class="form-actions"><div><b>Etiketler otomatik hazırlanır</b><small>1 stok etiketi + 1 numune etiketi</small></div><button class="btn" type="submit">Kaydet ve Etiket Oluştur →</button></div>
@@ -25,6 +25,8 @@
     const tur = document.getElementById('numuneTuru');
     const susamAlani = document.getElementById('susamPaketiAlani');
     const tahinAlani = document.getElementById('tahinPaketiAlani');
+    const susamPaketi = document.getElementById('susamPaketi');
+    const tahinPaketi = document.getElementById('tahinPaketi');
     const paketleriGoster = () => {
         const susam = tur.value === '1';
         susamAlani.style.display = susam ? '' : 'none';
@@ -41,13 +43,25 @@
 
     const alan = document.getElementById('StokAlani');
     const no = document.getElementById('StokNo');
-    alan?.addEventListener('change', async () => {
+    const stokNoGuncelle = async () => {
+        const paket = tur.value === '1' ? susamPaketi : tahinPaketi;
+        if (!paket?.value) {
+            no.value = '';
+            no.placeholder = 'Önce paketleme seçin';
+            return;
+        }
         no.value = 'Hesaplanıyor...';
-        const url = '@Url.Action("SonrakiStokNo", "Numuneler")' + '?stokAlani=' + encodeURIComponent(alan.value);
+        const params = new URLSearchParams({ stokAlani: alan.value, numuneTuru: tur.value, paketId: paket.value });
+        const url = '@Url.Action("SonrakiStokNo", "Numuneler")' + '?' + params.toString();
         const response = await fetch(url);
         if (!response.ok) { no.value = ''; return; }
         const result = await response.json();
         no.value = result.stokNo;
-    });
+    };
+    alan?.addEventListener('change', stokNoGuncelle);
+    tur?.addEventListener('change', stokNoGuncelle);
+    susamPaketi?.addEventListener('change', stokNoGuncelle);
+    tahinPaketi?.addEventListener('change', stokNoGuncelle);
+    stokNoGuncelle();
 })();
 </script>

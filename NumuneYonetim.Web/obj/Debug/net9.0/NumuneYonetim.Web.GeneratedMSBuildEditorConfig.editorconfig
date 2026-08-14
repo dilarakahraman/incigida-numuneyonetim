@@ -1,0 +1,97 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = NumuneYonetim.Web
+build_property.RootNamespace = NumuneYonetim.Web
+build_property.ProjectDir = C:\Users\dilara kahraman\Desktop\NumuneYonetim\NumuneYonetim.Web\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\dilara kahraman\Desktop\NumuneYonetim\NumuneYonetim.Web
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Laboratuvar/Analiz.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFib3JhdHV2YXJcQW5hbGl6LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Laboratuvar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFib3JhdHV2YXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Numuneler/Detay.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtdW5lbGVyXERldGF5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Numuneler/Duzenle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtdW5lbGVyXER1emVubGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Numuneler/Etiket.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtdW5lbGVyXEV0aWtldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Numuneler/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtdW5lbGVyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Numuneler/MusteriEtiket.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtdW5lbGVyXE11c3RlcmlFdGlrZXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Numuneler/NumuneEtiket.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtdW5lbGVyXE51bXVuZUV0aWtldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Numuneler/SonUrunHazirla.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtdW5lbGVyXFNvblVydW5IYXppcmxhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Numuneler/StokEtiket.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtdW5lbGVyXFN0b2tFdGlrZXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Numuneler/Yeni.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTnVtdW5lbGVyXFllbmkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Uretim/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXJldGltXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dilara kahraman/Desktop/NumuneYonetim/NumuneYonetim.Web/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-8k1fthmh8v

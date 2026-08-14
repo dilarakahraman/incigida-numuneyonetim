@@ -1,6 +1,29 @@
 @model List<Numune>
 @{ ViewData["Title"] = "Numune Kayıtları"; }
-<div class="hero compact"><div><span class="kicker">KAYIT ARŞİVİ</span><h1>Tüm numuneler</h1></div><form class="search"><input name="q" value="@ViewBag.Q" placeholder="Kod veya ürün ara..."/><button>Bul</button></form></div>
-<section class="panel"><div class="table-wrap"><table><thead><tr><th>İç kod</th><th>Dış kod</th><th>Ürün</th><th>Menşei / Cins</th><th>Durum</th><th></th></tr></thead><tbody>
-@foreach (var n in Model) { <tr><td><b class="code">@n.IcTakipKodu</b></td><td>@(n.AnonimDisKod ?? "—")</td><td>@n.UrunAdi<small>@n.NumuneAlmaTarihi.ToString("dd.MM.yyyy HH:mm")</small></td><td>@n.Mensei.Ad<small>@n.Cins.Ad</small></td><td><span class="status s-@((int)n.Durum)">@n.Durum</span></td><td><a asp-action="Detay" asp-route-id="@n.Id">Detay →</a></td></tr> }
+<div class="hero compact"><div><span class="kicker">KAYIT ARŞİVİ</span><h1>Gelişmiş kayıt sorgulama</h1><p>Müşteri, kod, tarih, ürün türü, kalite ve analiz durumuna göre kayıtları filtreleyebilirsiniz.</p></div></div>
+<form class="panel archive-filter" method="get">
+    <div class="field filter-search"><label for="q">Kod, müşteri adı veya ürün</label><input id="q" name="q" value="@ViewBag.Q" placeholder="Müşteri kodu, adı, iç kod, ürün, stok veya palet..." autofocus /></div>
+    <div class="field"><label for="baslangic">Başlangıç tarihi</label><input id="baslangic" name="baslangic" type="date" value="@ViewBag.Baslangic" /></div>
+    <div class="field"><label for="bitis">Bitiş tarihi</label><input id="bitis" name="bitis" type="date" value="@ViewBag.Bitis" /></div>
+    <div class="field"><label for="stokAlani">Kalite</label><select id="stokAlani" name="stokAlani"><option value="">Tümü</option><option value="STOK A" selected="@(ViewBag.StokAlani == "STOK A")">STOK A</option><option value="STOK B" selected="@(ViewBag.StokAlani == "STOK B")">STOK B</option></select></div>
+    <div class="field"><label for="numuneTuru">Ürün türü</label><select id="numuneTuru" name="numuneTuru"><option value="">Tümü</option><option value="1" selected="@(ViewBag.NumuneTuru == NumuneTuru.Susam)">Susam</option><option value="2" selected="@(ViewBag.NumuneTuru == NumuneTuru.Tahin)">Tahin</option></select></div>
+    <div class="field"><label for="durum">Analiz durumu</label><select id="durum" name="durum"><option value="">Tümü</option><option value="1" selected="@(ViewBag.Durum == NumuneDurumu.AnalizBekliyor)">Analiz bekliyor</option><option value="2" selected="@(ViewBag.Durum == NumuneDurumu.Analizde)">Analizde</option><option value="3" selected="@(ViewBag.Durum == NumuneDurumu.Onaylandi)">Onaylandı</option><option value="4" selected="@(ViewBag.Durum == NumuneDurumu.Reddedildi)">Reddedildi</option></select></div>
+    <div class="filter-actions"><button class="btn" type="submit">Filtrele</button>@if (ViewBag.FiltreVar == true) { <a asp-action="Index" class="mini-btn">Filtreleri temizle</a> }</div>
+</form>
+@if (!Model.Any())
+{
+    <section class="panel empty"><b>Kayıt bulunamadı</b><span>Girdiğiniz müşteri kodunu veya diğer bilgileri kontrol edin.</span></section>
+}
+else
+{
+<section class="panel"><div class="table-wrap"><table><thead><tr><th>Müşteri kodu</th><th>İç kod</th><th>Müşteri / Ürün</th><th>Kalite / Paketleme</th><th>Tarih</th><th>Durum</th><th></th></tr></thead><tbody>
+@foreach (var n in Model)
+{
+    var paketleme = n.NumuneTuru == NumuneTuru.Susam ? n.SusamPaketi?.Ad : n.TahinPaketi?.Ad;
+    <tr><td><b class="code">@(n.AnonimDisKod ?? "—")</b></td><td><span class="code">@n.IcTakipKodu</span></td><td>@(n.MusteriAdi ?? "Müşteri girilmedi")<small>@n.UrunAdi · @n.Mensei.Ad · @n.Cins.Ad</small></td><td>@(n.StokAlani ?? "—") · @(n.StokNo ?? "—")<small>@(paketleme ?? n.AmbalajTuru.Ad)</small></td><td>@n.NumuneAlmaTarihi.ToString("dd.MM.yyyy")</td><td><span class="status s-@((int)n.Durum)">@n.Durum</span></td><td><a asp-action="Detay" asp-route-id="@n.Id">Bilgileri gör →</a></td></tr>
+}
 </tbody></table></div></section>
+}
+<style>
+.archive-filter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-bottom:20px;padding:20px}.archive-filter .filter-search{grid-column:span 3}.filter-actions{display:flex;align-items:center;gap:10px;grid-column:span 3}.archive-filter .mini-btn{min-height:44px;align-items:center}@@media(max-width:800px){.archive-filter{grid-template-columns:1fr 1fr}.archive-filter .filter-search,.filter-actions{grid-column:span 2}}@@media(max-width:520px){.archive-filter{grid-template-columns:1fr}.archive-filter .filter-search,.filter-actions{grid-column:span 1}.filter-actions{align-items:stretch;flex-direction:column}}
+</style>

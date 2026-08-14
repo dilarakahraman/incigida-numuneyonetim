@@ -1,0 +1,131 @@
+info: Microsoft.EntityFrameworkCore.Infrastructure[10403]
+      Entity Framework Core 6.0.28 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.28' with options: None
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (227ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (855ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      
+      IF EXISTS
+          (SELECT *
+           FROM [sys].[objects] o
+           WHERE [o].[type] = 'U'
+           AND [o].[is_ms_shipped] = 0
+           AND NOT EXISTS (SELECT *
+               FROM [sys].[extended_properties] AS [ep]
+               WHERE [ep].[major_id] = [o].[object_id]
+                   AND [ep].[minor_id] = 0
+                   AND [ep].[class] = 1
+                   AND [ep].[name] = N'microsoft_database_tools_support'
+          )
+      )
+      SELECT 1 ELSE SELECT 0
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5173
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\dilara kahraman\Desktop\NumuneYonetim\NumuneYonetim.Web
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+info: Microsoft.EntityFrameworkCore.Infrastructure[10403]
+      Entity Framework Core 6.0.28 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.28' with options: None
+info: Microsoft.EntityFrameworkCore.Infrastructure[10403]
+      Entity Framework Core 6.0.28 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.28' with options: None
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (316ms) [Parameters=[@__bugun_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Numuneler] AS [n]
+      WHERE [n].[KayitTarihi] >= @__bugun_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (108ms) [Parameters=[@__bugun_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Numuneler] AS [n]
+      WHERE [n].[KayitTarihi] >= @__bugun_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (51ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Numuneler] AS [n]
+      WHERE [n].[Durum] IN (1, 2)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (87ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Numuneler] AS [n]
+      WHERE [n].[Durum] IN (1, 2)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (55ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Numuneler] AS [n]
+      WHERE [n].[Durum] = 3
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (56ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Numuneler] AS [n]
+      WHERE [n].[Durum] = 3
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (76ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [EtiketBaskilari] AS [e]
+      WHERE [e].[Durum] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (89ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [EtiketBaskilari] AS [e]
+      WHERE [e].[Durum] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (140ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [t].[Id], [t].[Aciklama], [t].[AmbalajTuruId], [t].[AnonimDisKod], [t].[CinsId], [t].[Durum], [t].[IcTakipKodu], [t].[Kaydeden], [t].[KayitTarihi], [t].[MenseiId], [t].[NumuneAlmaTarihi], [t].[PaketSayisi], [t].[PaletNo], [t].[SiraNumarasi], [t].[UretimTarihi], [t].[UrunAdi], [m].[Id], [m].[Ad], [m].[AktifMi], [m].[Kod], [c].[Id], [c].[Ad], [c].[AktifMi], [c].[Kod]
+      FROM (
+          SELECT TOP(@__p_0) [n].[Id], [n].[Aciklama], [n].[AmbalajTuruId], [n].[AnonimDisKod], [n].[CinsId], [n].[Durum], [n].[IcTakipKodu], [n].[Kaydeden], [n].[KayitTarihi], [n].[MenseiId], [n].[NumuneAlmaTarihi], [n].[PaketSayisi], [n].[PaletNo], [n].[SiraNumarasi], [n].[UretimTarihi], [n].[UrunAdi]
+          FROM [Numuneler] AS [n]
+          ORDER BY [n].[KayitTarihi] DESC
+      ) AS [t]
+      INNER JOIN [Menseiler] AS [m] ON [t].[MenseiId] = [m].[Id]
+      INNER JOIN [Cinsler] AS [c] ON [t].[CinsId] = [c].[Id]
+      ORDER BY [t].[KayitTarihi] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (168ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [t].[Id], [t].[Aciklama], [t].[AmbalajTuruId], [t].[AnonimDisKod], [t].[CinsId], [t].[Durum], [t].[IcTakipKodu], [t].[Kaydeden], [t].[KayitTarihi], [t].[MenseiId], [t].[NumuneAlmaTarihi], [t].[PaketSayisi], [t].[PaletNo], [t].[SiraNumarasi], [t].[UretimTarihi], [t].[UrunAdi], [m].[Id], [m].[Ad], [m].[AktifMi], [m].[Kod], [c].[Id], [c].[Ad], [c].[AktifMi], [c].[Kod]
+      FROM (
+          SELECT TOP(@__p_0) [n].[Id], [n].[Aciklama], [n].[AmbalajTuruId], [n].[AnonimDisKod], [n].[CinsId], [n].[Durum], [n].[IcTakipKodu], [n].[Kaydeden], [n].[KayitTarihi], [n].[MenseiId], [n].[NumuneAlmaTarihi], [n].[PaketSayisi], [n].[PaletNo], [n].[SiraNumarasi], [n].[UretimTarihi], [n].[UrunAdi]
+          FROM [Numuneler] AS [n]
+          ORDER BY [n].[KayitTarihi] DESC
+      ) AS [t]
+      INNER JOIN [Menseiler] AS [m] ON [t].[MenseiId] = [m].[Id]
+      INNER JOIN [Cinsler] AS [c] ON [t].[CinsId] = [c].[Id]
+      ORDER BY [t].[KayitTarihi] DESC
+info: Microsoft.EntityFrameworkCore.Infrastructure[10403]
+      Entity Framework Core 6.0.28 initialized 'AppDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.28' with options: None
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (136ms) [Parameters=[@__bugun_0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Numuneler] AS [n]
+      WHERE [n].[KayitTarihi] >= @__bugun_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (53ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Numuneler] AS [n]
+      WHERE [n].[Durum] IN (1, 2)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (40ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Numuneler] AS [n]
+      WHERE [n].[Durum] = 3
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (217ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [EtiketBaskilari] AS [e]
+      WHERE [e].[Durum] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (254ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [t].[Id], [t].[Aciklama], [t].[AmbalajTuruId], [t].[AnonimDisKod], [t].[CinsId], [t].[Durum], [t].[IcTakipKodu], [t].[Kaydeden], [t].[KayitTarihi], [t].[MenseiId], [t].[NumuneAlmaTarihi], [t].[PaketSayisi], [t].[PaletNo], [t].[SiraNumarasi], [t].[UretimTarihi], [t].[UrunAdi], [m].[Id], [m].[Ad], [m].[AktifMi], [m].[Kod], [c].[Id], [c].[Ad], [c].[AktifMi], [c].[Kod]
+      FROM (
+          SELECT TOP(@__p_0) [n].[Id], [n].[Aciklama], [n].[AmbalajTuruId], [n].[AnonimDisKod], [n].[CinsId], [n].[Durum], [n].[IcTakipKodu], [n].[Kaydeden], [n].[KayitTarihi], [n].[MenseiId], [n].[NumuneAlmaTarihi], [n].[PaketSayisi], [n].[PaletNo], [n].[SiraNumarasi], [n].[UretimTarihi], [n].[UrunAdi]
+          FROM [Numuneler] AS [n]
+          ORDER BY [n].[KayitTarihi] DESC
+      ) AS [t]
+      INNER JOIN [Menseiler] AS [m] ON [t].[MenseiId] = [m].[Id]
+      INNER JOIN [Cinsler] AS [c] ON [t].[CinsId] = [c].[Id]
+      ORDER BY [t].[KayitTarihi] DESC

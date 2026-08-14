@@ -12,26 +12,64 @@ namespace NumuneYonetim.Web.Controllers;
 
 public class NumunelerController(AppDbContext db, NumuneKodService kodService, CanliBildirimService bildirim, IHubContext<BaskiHub> hub) : Controller
 {
-    public async Task<IActionResult> Index(string? q)
+    public async Task<IActionResult> Index(string? q, DateTime? baslangic, DateTime? bitis,
+        string? stokAlani, NumuneTuru? numuneTuru, NumuneDurumu? durum)
     {
-        var sorgu = db.Numuneler.Include(x => x.Mensei).Include(x => x.Cins).Include(x => x.AmbalajTuru).AsQueryable();
-        if (!string.IsNullOrWhiteSpace(q)) sorgu = sorgu.Where(x => x.IcTakipKodu.Contains(q) || (x.AnonimDisKod != null && x.AnonimDisKod.Contains(q)) || x.UrunAdi.Contains(q));
+        var sorgu = db.Numuneler
+            .Include(x => x.Mensei)
+            .Include(x => x.Cins)
+            .Include(x => x.AmbalajTuru)
+            .Include(x => x.SusamPaketi)
+            .Include(x => x.TahinPaketi)
+            .AsQueryable();
+        if (!string.IsNullOrWhiteSpace(q))
+        {
+            q = q.Trim();
+            sorgu = sorgu.Where(x => x.IcTakipKodu.Contains(q)
+                || (x.AnonimDisKod != null && x.AnonimDisKod.Contains(q))
+                || (x.MusteriAdi != null && x.MusteriAdi.Contains(q))
+                || (x.StokAlani != null && x.StokAlani.Contains(q))
+                || (x.StokNo != null && x.StokNo.Contains(q))
+                || (x.PaletNo != null && x.PaletNo.Contains(q))
+                || x.UrunAdi.Contains(q));
+        }
+        if (baslangic.HasValue)
+            sorgu = sorgu.Where(x => x.NumuneAlmaTarihi >= baslangic.Value.Date);
+        if (bitis.HasValue)
+        {
+            var bitisHaric = bitis.Value.Date.AddDays(1);
+            sorgu = sorgu.Where(x => x.NumuneAlmaTarihi < bitisHaric);
+        }
+        if (stokAlani is "STOK A" or "STOK B")
+            sorgu = sorgu.Where(x => x.StokAlani == stokAlani);
+        if (numuneTuru.HasValue)
+            sorgu = sorgu.Where(x => x.NumuneTuru == numuneTuru.Value);
+        if (durum.HasValue)
+            sorgu = sorgu.Where(x => x.Durum == durum.Value);
         ViewBag.Q = q;
+        ViewBag.Baslangic = baslangic?.ToString("yyyy-MM-dd");
+        ViewBag.Bitis = bitis?.ToString("yyyy-MM-dd");
+        ViewBag.StokAlani = stokAlani;
+        ViewBag.NumuneTuru = numuneTuru;
+        ViewBag.Durum = durum;
+        ViewBag.FiltreVar = !string.IsNullOrWhiteSpace(q) || baslangic.HasValue || bitis.HasValue
+            || !string.IsNullOrWhiteSpace(stokAlani) || numuneTuru.HasValue || durum.HasValue;
         return View(await sorgu.OrderByDescending(x => x.KayitTarihi).ToListAsync());
     }
 
     public async Task<IActionResult> Yeni()
     {
         await SecimleriYukle();
-        return View(new NumuneOlusturVm { StokNo = await SonrakiStokNoAsync("STOK A") });
+        return View(new NumuneOlusturVm());
     }
 
     [HttpGet]
-    public async Task<IActionResult> SonrakiStokNo(string stokAlani)
+    public async Task<IActionResult> SonrakiStokNo(string stokAlani, NumuneTuru numuneTuru, int paketId)
     {
         var alan = (stokAlani ?? "").Trim().ToUpperInvariant();
-        if (alan is not ("STOK A" or "STOK B")) return BadRequest();
-        return Json(new { stokNo = await SonrakiStokNoAsync(alan) });
+        if (alan is not ("STOK A" or "STOK B") || paketId <= 0 || !Enum.IsDefined(numuneTuru))
+            return BadRequest();
+        return Json(new { stokNo = await SonrakiStokNoAsync(alan, numuneTuru, paketId) });
     }
 
     [HttpPost, ValidateAntiForgeryToken]
@@ -47,7 +85,8 @@ public class NumunelerController(AppDbContext db, NumuneKodService kodService, C
         if (!ModelState.IsValid) { await SecimleriYukle(); return View(vm); }
         await using var transaction = await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable);
         vm.StokAlani = vm.StokAlani.Trim().ToUpperInvariant();
-        vm.StokNo = await SonrakiStokNoAsync(vm.StokAlani);
+        var paketId = vm.NumuneTuru == NumuneTuru.Susam ? vm.SusamPaketiId!.Value : vm.TahinPaketiId!.Value;
+        vm.StokNo = await SonrakiStokNoAsync(vm.StokAlani, vm.NumuneTuru, paketId);
         var dahiliAmbalajId = await db.AmbalajTurleri.Where(x => x.AktifMi).Select(x => x.Id).FirstAsync();
         var (kod, sira) = await kodService.YeniIcKodAsync(vm.MenseiId, vm.CinsId);
         var numune = new Numune
@@ -180,10 +219,15 @@ public class NumunelerController(AppDbContext db, NumuneKodService kodService, C
         ViewBag.TahinPaketleri = new SelectList(await db.TahinPaketleri.Where(x => x.AktifMi).OrderBy(x => x.Id).ToListAsync(), "Id", "Ad");
     }
 
-    private async Task<string> SonrakiStokNoAsync(string stokAlani)
+    private async Task<string> SonrakiStokNoAsync(string stokAlani, NumuneTuru numuneTuru, int paketId)
     {
         var mevcutNumaralar = await db.Numuneler
-            .Where(x => x.StokAlani == stokAlani && x.StokNo != null)
+            .Where(x => x.StokAlani == stokAlani
+                && x.NumuneTuru == numuneTuru
+                && x.StokNo != null
+                && (numuneTuru == NumuneTuru.Susam
+                    ? x.SusamPaketiId == paketId
+                    : x.TahinPaketiId == paketId))
             .Select(x => x.StokNo!)
             .ToListAsync();
 

@@ -17,7 +17,7 @@ public class NumuneOlusturVm
     [MaxLength(40)] public string? PaletNo { get; set; }
     [Required, RegularExpression("^STOK [AB]$", ErrorMessage = "Stok alanı STOK A veya STOK B olmalıdır.")]
     public string StokAlani { get; set; } = "STOK A";
-    [Required, MaxLength(30)] public string StokNo { get; set; } = "";
+    [MaxLength(30)] public string StokNo { get; set; } = "";
     [Range(0.01, 100000)] public decimal PaketAgirligiKg { get; set; } = 25;
     [MaxLength(500)] public string? Aciklama { get; set; }
     [Required, MaxLength(100)] public string Kaydeden { get; set; } = "Kalite Personeli";
